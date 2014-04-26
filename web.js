@@ -11,6 +11,7 @@ var twitter = new Twit({
 
 // Specify pages directory as static
 app.use(express.static(__dirname + "/pages"));
+app.use('/resources', express.static(__dirname + "/resources"));
 app.use(express.bodyParser());
 
 // Stores a mapping from session IDs to preferences.
@@ -65,7 +66,7 @@ app.get('/s/:sess_id', function(req, res, next) {
         res.send('Session ID ' + req.params.sess_id + ' not found! :(');
         return;
     }
-    res.send("The main hashtag view page will go here!");
+    res.sendfile(__dirname + "/pages/viewer.html");
 });
 
 // View the admin page
