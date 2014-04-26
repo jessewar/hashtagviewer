@@ -68,6 +68,7 @@ app.get('/fetch/:id', function(req, res) {
             var status = reply.statuses[i];
             if (status == undefined) {
                 res.send("");
+                return;
             }
             var user = status.user;
             parsedData[i] = {
