@@ -36,7 +36,7 @@ app.post('/', function(req, res) {
     
     // generate a random session ID and initialize default preferences
     var id = generate_sess_id();
-    sessions[id] = preferences_defaults
+    sessions[id] = preferences_defaults;
     sessions[id].query = query;
 
     // Redirect to the session page
@@ -83,7 +83,7 @@ app.get('/s/:sess_id', function(req, res, next) {
         return;
     }
 
-    session = sessions[req.params.sess_id]
+    var session = sessions[req.params.sess_id]
     res.render(__dirname + "/pages/viewer_" + session.animation + ".html", {page_id: req.params.sess_id});
 });
 
