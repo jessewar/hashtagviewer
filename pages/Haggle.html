@@ -4,20 +4,29 @@
 <title>HashTag Viewer</title>
 <meta name="description" content="Because you want a better Twitter board">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<link href="/resources/css/home2.css" media="screen" rel="stylesheet">
-	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />
-	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css" />
+<link href="/resources/css/home.css" media="screen" rel="stylesheet">
+<!-- <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css" />
 	<link rel="stylesheet" href="/resources/css/home.css" type="text/css" />
 	<script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
-	<script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+	<script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script> -->
 
 
 
 <script type="text/javascript">
 	$(function() {
-	  
+	  var o = function (o) {
+	        $("html, body").animate({
+	            scrollTop: $(o).offset().top
+	        }, 400)
+	    };
+	    $("[href^=#]").click(function () {
+	        return o($(this).attr("href")), !1
+	    })
+	});
+
+	$( document ).ready(function() {
 		$("#submit").click(function() {
-			console.log("hi");
 			$("#submitquery").submit(); });
 	});
 </script>
@@ -53,7 +62,7 @@ padding: 0 14px;
 <section id="top">
 	<header>
 		<div class="inner">
-			<h1><a href="/"><img src="/resources/img/logo.png" class="logo"></a></h1>
+			<h1><a href="./Haggle_files/Haggle.html">#Hashtag Viewer<img src="logo.png" class="logo"></a></h1>
 			
 			
 			<div class="clear"></div>
@@ -70,7 +79,7 @@ padding: 0 14px;
 		     		<input type="text" placeholder="Enter a query" name="query" />
 		     	</div>
 		     	<ul class="buttons">
-					<li class="sell"><a href="#" id="submit">Submit query</a></li>
+					<li class="sell"><a href="/index.html" class="submit" id="submit">Submit query</a></li>
 				</ul>
 		    </form>
 			
@@ -88,17 +97,17 @@ padding: 0 14px;
 	<section id="features">
 		<ul class="features inner">
 			<li>
-				<img src="/resources/img/feature-nearby.png">
+				<img src="feature-nearby.png">
 				<h4>Nearby</h4>
 				<p>See who's tweeting closest to you in order by distance, no strings attached.</p>
 			</li>
 			<li>
-				<img src="/resources/img/feature-connect.png">
+				<img src="feature-connect.png">
 				<h4>Connect</h4>
 				<p>Easily connect people by sending them tweets!</p>
 			</li>
 			<li>
-				<img src="/resources/img/feature-search.png">
+				<img src="feature-search.png">
 				<h4>Search</h4>
 				<p>Search for something specific and find that special #hashtag.</p>
 			</li>
