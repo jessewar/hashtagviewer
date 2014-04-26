@@ -9,28 +9,6 @@ var twitter = new Twit({
     access_token_secret: 'A1mMbEnPovAwJWMpjoVRraAPkHtYQSF7RGEeoJ00ePy2N'
 });
 
-// Generate a random session id
-function generate_sess_id() {
-	var result_id = "";
-
-	for (var i = 0; i < 10; i++) {
-		var character = Math.floor((Math.random() * 61));
-
-		// Numbers
-		if (character < 10) {
-			result_id += String.fromCharCode(character + 48);
-		// Uppercase Letters
-		} else if (character < 36) {
-			result_id += String.fromCharCode(character + 55);
-		// Lowercase Letters
-		} else {
-			result_id += String.fromCharCode(character + 61);
-		}
-	}
-
-	return result_id;
-}
-
 // Specify pages directory as static
 app.use(express.static(__dirname + "/pages"));
 app.use(express.bodyParser());
@@ -40,6 +18,15 @@ var sessions = {};
 
 app.get('/', function(req, res) {
     // generate a random session ID and initialize empty preferences key
+    var id = generate_sess_id();
+    sessions.id = {};
+
+    res.sendfile(__dirname + "/pages/homepage.html");
+});
+
+app.post('/', function(req, res) {
+    var query = req.body.query;
+    res.redirect('/search/' + query);
 });
 
 app.get('/search/:query', function(req, res) {
@@ -66,9 +53,9 @@ app.get('/search/:query', function(req, res) {
 // View the tweet board with the given session ID
 app.get('/session/:sess_id', function(req, res, next) {
     if (sessions[req.params.sess_id] != undefined) {
-	res.send("The main hashtag view page will go here!");
+        res.send("The main hashtag view page will go here!");
     } else {
-	next();
+        next();
     }
 });
 
@@ -79,11 +66,6 @@ app.get('/session/:sess_id', function(req, res) {
 
 // View the admin page
 app.get('/session/:sess_id/admin', function(req, res) {
-    // Create if not already there
-    if (sessions[req.params.sess_id] == undefined) {
-        sessions[req.params.sess_id] = {};
-    }
-
     res.sendfile(__dirname + "/pages/admin.html");
 });
 
@@ -101,4 +83,26 @@ var port = Number(process.env.PORT || 5000);
 app.listen(port, function() {
     console.log("Listening on " + port);
 });
+
+// Generate a random session id
+function generate_sess_id() {
+    var result_id = "";
+
+    for (var i = 0; i < 10; i++) {
+        var character = Math.floor((Math.random() * 61));
+
+        // Numbers
+        if (character < 10) {
+            result_id += String.fromCharCode(character + 48);
+            // Uppercase Letters
+        } else if (character < 36) {
+            result_id += String.fromCharCode(character + 55);
+            // Lowercase Letters
+        } else {
+            result_id += String.fromCharCode(character + 61);
+        }
+    }
+
+    return result_id;
+}
 
