@@ -1,8 +1,9 @@
 function showTweetSequence() {
-    $(".block").fadeOut(1000, function() {
-        onNextTweet($(".block"));
-        $(".block").fadeIn(1000, function() {
-        });
+    $(".block").fadeOut(3500, function() {
+	onNextTweet($(".block"));
+        $(".block").fadeIn(2000, function() {
+
+	});
     });
 }
 
