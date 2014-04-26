@@ -9,6 +9,28 @@ var twitter = new Twit({
     access_token_secret: 'A1mMbEnPovAwJWMpjoVRraAPkHtYQSF7RGEeoJ00ePy2N'
 });
 
+// Generate a random session id
+function generate_sess_id() {
+	var result_id = "";
+
+	for (var i = 0; i < 10; i++) {
+		var character = Math.floor((Math.random() * 61));
+
+		// Numbers
+		if (character < 10) {
+			result_id += String.fromCharCode(character + 48);
+		// Uppercase Letters
+		} else if (character < 36) {
+			result_id += String.fromCharCode(character + 55);
+		// Lowercase Letters
+		} else {
+			result_id += String.fromCharCode(character + 61);
+		}
+	}
+
+	return result_id;
+}
+
 // Specify pages directory as static
 app.use(express.static(__dirname + "/pages"));
 app.use(express.bodyParser());
