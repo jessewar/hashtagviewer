@@ -1,7 +1,7 @@
 var tweets = [];
 
 $(document).ready(function() {
-	_iterateTweets();
+	_iterateTweets(on_tweet_load);
 });
 
 // Loads the next tweet into the specified element or returns it
@@ -26,10 +26,13 @@ function nextTweet(element) {
 }
 
 // Internal function that iterates to the next set of tweets
-function _iterateTweets() {
+function _iterateTweets(done) {
 	$.ajax({
 		url: "/fetch/" + current_id
 	}).done(function(data) {
 		tweets = data;
+		if (done != undefined) {
+			done();
+		}
 	});
 }

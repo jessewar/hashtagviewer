@@ -21,7 +21,8 @@ var sessions = {};
 // Preference defaults for sessions
 var preferences_defaults = {
     board_title: "#Hashtag Viewer",
-    query: ""
+    query: "",
+    animation: "slideright"
 };
 
 app.get('/', function(req, res) {
@@ -72,7 +73,8 @@ app.get('/s/:sess_id', function(req, res, next) {
         res.send('Session ID ' + req.params.sess_id + ' not found! :(');
         return;
     }
-    res.render(__dirname + "/pages/viewer.html", {page_id: req.params.sess_id});
+    session = sessions[req.params.sess_id]
+    res.render(__dirname + "/pages/viewer_" + session.animation + ".html", {page_id: req.params.sess_id});
 });
 
 // View the admin page
@@ -84,7 +86,8 @@ app.get('/s/:sess_id/admin', function(req, res) {
 app.post('/s/:sess_id/admin', function(req, res) {
     var prefs = {
         board_title: req.body.board_title,
-        query: req.body.query
+        query: req.body.query,
+        animation: req.body.animation
     };
 
     sessions[req.params.sess_id] = prefs;

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Twitter Board</title>
+		<link href="/resources/css/viewer.css" type="text/css" rel="stylesheet" />
+		<link href="/resources/css/viewer_slideright.css" type="text/css" rel="stylesheet" />
+		<!-- Font Stylesheet -->
+		<link href="http://fonts.googleapis.com/css?family=Istok+Web" rel="stylesheet"
+			type="text/css" />
+
+		<script src="//code.jquery.com/jquery-1.8.2.min.js"></script>
+		<script>
+		var current_id = "{{page_id}}";
+		on_tweet_load = function(){
+			var div=$("#blockId");
+			div.fadeIn(1000);
+		    div.animate({left:'50%'},{queue: false,duration: 12000,easing: false});
+		    div.delay(10000).fadeOut(1000);
+		    nextTweet($("#blockId"));
+		    };
+		    
+		    $( "#blockId" ).fadeOut( "slow");
+		</script>
+		<script src="/resources/js/load_tweets.js"></script>
+	</head>
+	<body>
+		<div class="block" id="blockId" style="display: none;">
+			<div class="userinfo">
+				<img src="profile.png" alt="Profile Picture" class="profile_pic" />
+				<span class="username">@AdamMirza12</span><br />
+				<span class="date">4/26/2014 &#149; 12:34</span>
+			</div>
+			<div class="tweet">
+				<p class="text"> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+					eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad mini </p>
+				<span class="ratings">56 Favorites</span>
+				<span class="ratings">9 Retweets</span>
+			</div>
+		</div>
+	</body>
+</html>
