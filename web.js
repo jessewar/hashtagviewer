@@ -73,6 +73,7 @@ app.get('/s/:sess_id', function(req, res, next) {
         res.send('Session ID ' + req.params.sess_id + ' not found! :(');
         return;
     }
+    
     session = sessions[req.params.sess_id]
     res.render(__dirname + "/pages/viewer_" + session.animation + ".html", {page_id: req.params.sess_id});
 });
