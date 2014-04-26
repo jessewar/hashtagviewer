@@ -7,16 +7,28 @@
 		<div class="container">
 			<h1>Admin</h1>
 			<a href=".">Back</a>
-			<form method="post">
-				<input type="text" placeholder="Board name" name="board_title" value="{{board_title}}" />
-				<input type="text" placeholder="Search Parameters" name="query" value="{{query}}" />
-				<select name="animation">
-					<option value="slideright" {{slideright_on}}>Slide Right</option>
-					<option value="fading" {{fading_on}}>Fading</option>
-				</select>
-				<!-- TODO: Verify me -->
-				<input type="text" placeholder "# of tweets" name="tweet_count" value="{{tweet_count}}" />
-				<button type="submit">Update Board</button>
+			<form method="post" role="form">
+				<div class="form-group">
+					<label for="board_title">Title</label>
+					<input class="form-control" type="text" placeholder="Title" name="board_title" value="{{board_title}}" />
+				</div>
+				<div class="form-group">
+					<label for="query">Search Terms</label>
+					<input class="form-control" type="text" placeholder="Terms" name="query" value="{{query}}" />
+				</div>
+				<div class="form-group">
+					<label for="animation">Animation</label>
+					<select class="form-control" name="animation">
+						<option value="slideright" {{slideright_on}}>Slide Right</option>
+						<option value="fading" {{fading_on}}>Fading</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<!-- TODO: Verify me -->
+					<label for="tweet_count">Number of tweets to pull initially</label>
+					<input class="form-control" type="text" placeholder "# of tweets" name="tweet_count" value="{{tweet_count}}" />
+				</div>
+				<button class="btn btn-primary" type="submit">Update Board</button>
 			</form>
 		</div>
 		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
