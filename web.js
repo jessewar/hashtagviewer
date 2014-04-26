@@ -56,7 +56,7 @@ app.get('/fetch/:id', function(req, res) {
     if (session == undefined) {
         return;
     }
-    
+
     var properties = {
         q: session.query + " -" + session.filters.split().join(" -"),
         count: session.tweet_count
@@ -128,6 +128,9 @@ app.post('/s/:sess_id/admin', function(req, res) {
 
     if (prefs.location.length >= 0) {
         geocoder.geocode(prefs.location, function(err, res) {
+            if (res == undefined) {
+                return;
+            }
             console.log(res);
             prefs.latLong = [res[0].latitude, res[0].longitude];
             console.log(prefs.latLong);
