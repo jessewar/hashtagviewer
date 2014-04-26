@@ -22,7 +22,7 @@ var sessions = {};
 var preferences_defaults = {
     board_title: "#Hashtag Viewer",
     query: "",
-    animation: "fading",
+    animation: "slideright",
     tweet_count: 10
 };
 

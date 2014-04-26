@@ -15,8 +15,3 @@ function onNextTweet(element) {
     showTweetSequence();
 }
 
-function setColorGradient($element, popularity) {
-    var saturation = popularity*20 + "%";
-    console.log(saturation);
-    $element.css('background-color', 'hsl(0,' + saturation + ',50%)');
-}

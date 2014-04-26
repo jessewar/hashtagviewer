@@ -42,6 +42,14 @@ function nextTweet(element) {
     return result;
 }
 
+
+// Sets the color of the given element based on its popularity
+function setColorGradient($element, popularity) {
+    var saturation = popularity*20 + "%";
+    console.log(saturation);
+    $element.css('background-color', 'hsl(0,' + saturation + ',50%)');
+}
+
 // Internal function that iterates to the next set of tweets
 function _iterateTweets() {
     $.ajax({
