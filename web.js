@@ -22,7 +22,7 @@ var sessions = {};
 var preferences_defaults = {
     board_title: "#Hashtag Viewer",
     query: "",
-    animation: "slideright"
+    animation: "fading"
 };
 
 app.get('/', function(req, res) {
