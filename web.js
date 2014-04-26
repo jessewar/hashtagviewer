@@ -10,6 +10,7 @@ var twitter = new Twit({
 });
 
 // Specify pages directory as static
+app.engine('html', consolidate.swig)
 app.use(express.static(__dirname + "/pages"));
 app.use('/resources', express.static(__dirname + "/resources"));
 app.use(express.bodyParser());
@@ -40,7 +41,7 @@ app.post('/', function(req, res) {
 
 // Fetches the tweets for the given id
 app.get('/fetch/:id', function(req, res) {
-    twitter.get('search/tweets', {q: '#' + session[req.params.id].query, count: 25}, function(err, reply) {
+    twitter.get('search/tweets', {q: '#' + sessions[req.params.id].query, count: 25}, function(err, reply) {
         var status = reply.statuses[0];
         var user = status.user;
         var parsedData = {
@@ -66,7 +67,7 @@ app.get('/s/:sess_id', function(req, res, next) {
         res.send('Session ID ' + req.params.sess_id + ' not found! :(');
         return;
     }
-    res.sendfile(__dirname + "/pages/viewer.html");
+    res.render(__dirname + "/pages/viewer.html", {page_id: req.params.sess_id});
 });
 
 // View the admin page
