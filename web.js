@@ -12,6 +12,24 @@ app.get('/:query', function(req, res) {
     twitter.get('search/tweets', {q: '#' + req.params.query, count: 1}, function(err, reply) {
         console.log("Error: " + err);
         console.log("Reply: " + JSON.stringify(reply));
+//	res.send(reply);
+
+	var status = reply.statuses[0];
+	var user = status.user;
+	var parsedData = {
+	    // status data
+	    favorite_count : status.favorite_count,
+	    created_at : status.created_at,
+	    text : status.text,
+	    geo : status.geo,
+	    coordinates : status.coordinates,
+	    // user data
+	    name : user.name,
+	    screen_name : user.screen_name,
+	    location : user.location,
+	    profile_image_url : user.profile_image_url
+	};
+	res.send(parsedData);
     });
 });
 
