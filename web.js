@@ -73,13 +73,16 @@ app.get('/s/:sess_id', function(req, res, next) {
         res.send('Session ID ' + req.params.sess_id + ' not found! :(');
         return;
     }
-    
+
     session = sessions[req.params.sess_id]
     res.render(__dirname + "/pages/viewer_" + session.animation + ".html", {page_id: req.params.sess_id});
 });
 
 // View the admin page
 app.get('/s/:sess_id/admin', function(req, res) {
+    var renderable = sessions[req.params.sess_id];
+    renderable.slideright_on = (renderable.animation == "slideright" ? "selected" : "");
+    renderable.fading_on = (renderable.animation == "fading" ? "selected" : "");
     res.render(__dirname + "/pages/admin.html", sessions[req.params.sess_id]);
 });
 

@@ -11,8 +11,8 @@
 				<input type="text" placeholder="Board name" name="board_title" value="{{board_title}}" />
 				<input type="text" placeholder="Search Parameters" name="query" value="{{query}}" />
 				<select name="animation">
-					<option value="slideright">Slide Right</option>
-					<option value="fading">Fading</option>
+					<option value="slideright" {{slideright_on}}>Slide Right</option>
+					<option value="fading" {{fading_on}}>Fading</option>
 				</select>
 				<button type="submit">Update Board</button>
 			</form>
