@@ -52,6 +52,11 @@ app.post('/', function(req, res) {
 // Fetches the tweets for the given id
 app.get('/fetch/:id', function(req, res) {
     var session = sessions[req.params.id];
+
+    if (session == undefined) {
+        return;
+    }
+    
     var properties = {
         q: session.query + " -" + session.filters.split().join(" -"),
         count: session.tweet_count
