@@ -22,7 +22,8 @@ var sessions = {};
 var preferences_defaults = {
     board_title: "#Hashtag Viewer",
     query: "",
-    animation: "fading"
+    animation: "fading",
+    tweet_count: 10
 };
 
 app.get('/', function(req, res) {
@@ -43,12 +44,14 @@ app.post('/', function(req, res) {
 
 // Fetches the tweets for the given id
 app.get('/fetch/:id', function(req, res) {
-    twitter.get('search/tweets', {q: '#' + sessions[req.params.id].query, count: 25}, function(err, reply) {
-	if (err) console.log(err);
-	
-        var parsedData = new Array(25);
-        for (var i = 0; i < 25; i++) {
+    var session = sessions[req.params.id];
+    twitter.get('search/tweets', {q: '#' + session.query, count: session.tweet_count}, function(err, reply) {
+        var parsedData = new Array(session.tweet_count);
+        for (var i = 0; i < session.tweet_count; i++) {
             var status = reply.statuses[i];
+            if (status == undefined) {
+                res.send("");
+            }
             var user = status.user;
             parsedData[i] = {
                 // status data
@@ -93,7 +96,8 @@ app.post('/s/:sess_id/admin', function(req, res) {
     var prefs = {
         board_title: req.body.board_title,
         query: req.body.query,
-        animation: req.body.animation
+        animation: req.body.animation,
+        tweet_count: req.body.tweet_count
     };
 
     sessions[req.params.sess_id] = prefs;
