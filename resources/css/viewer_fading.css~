@@ -4,7 +4,7 @@
  */
 
 body {
-	background-color: #F0E5FB; /* Standard syntax (must be last) */
+	background-color: #CEECF5;
 	font-family: "Istok Web", sans-serif;
 }
 
@@ -35,7 +35,7 @@ body {
 
 .date {
 	font-size: 8pt;
-	color: black;
+	color: gray;
 }
 
 .text {

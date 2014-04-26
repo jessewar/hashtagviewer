@@ -12,10 +12,10 @@ body {
     background-color: #E6E6E6;
     border: 4px white solid;
     border-radius: 15px;
-    margin: 5px;
     padding: 8px;
     width: 50%;
-    margin: 50% auto;
+    margin: 15% auto;
+    zoom: 200%;
 }
 
 .userinfo img {
@@ -35,7 +35,7 @@ body {
 
 .date {
     font-size: 8pt;
-    color: gray;
+    color: black;
 }
 
 .text {
