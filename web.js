@@ -13,59 +13,66 @@ var twitter = new Twit({
 app.use(express.static(__dirname + "/pages"));
 app.use(express.bodyParser());
 
-// Stores a mapping from sessions to preferences.
+// Stores a mapping from session IDs to preferences.
 var sessions = {};
+
+app.get('/', function(req, res) {
+    // generate a random session ID and initialize empty preferences key
+});
 
 app.get('/search/:query', function(req, res) {
     twitter.get('search/tweets', {q: '#' + req.params.query, count: 1}, function(err, reply) {
-        console.log("Error: " + err);
-        console.log("Reply: " + JSON.stringify(reply));
-//	res.send(reply);
-
-	var status = reply.statuses[0];
-	var user = status.user;
-	var parsedData = {
-	    // status data
-	    favorite_count : status.favorite_count,
-	    created_at : status.created_at,
-	    text : status.text,
-	    geo : status.geo,
-	    coordinates : status.coordinates,
-	    // user data
-	    name : user.name,
-	    screen_name : user.screen_name,
-	    location : user.location,
-	    profile_image_url : user.profile_image_url
-	};
-	res.send(parsedData);
+        var status = reply.statuses[0];
+        var user = status.user;
+        var parsedData = {
+            // status data
+            favorite_count : status.favorite_count,
+            created_at : status.created_at,
+            text : status.text,
+            geo : status.geo,
+            coordinates : status.coordinates,
+            // user data
+            name : user.name,
+            screen_name : user.screen_name,
+            location : user.location,
+            profile_image_url : user.profile_image_url
+        };
+        res.send(parsedData);
     });
 });
 
 // View the tweet board with the given session ID
+app.get('/session/:sess_id', function(req, res, next) {
+    if (sessions[req.params.sess_id] != undefined) {
+	res.send("The main hashtag view page will go here!");
+    } else {
+	next();
+    }
+});
+
+// Error handler for unknown session ID's
 app.get('/session/:sess_id', function(req, res) {
-	if (sessions[req.params.sess_id] == undefined) {
-		res.send('Session ID ' + req.params.sess_id + ' not found! :(');
-	}
+    res.send('Session ID ' + req.params.sess_id + ' not found! :(');
 });
 
 // View the admin page
 app.get('/session/:sess_id/admin', function(req, res) {
-	// Create if not already there
-	if (sessions[req.params.sess_id] == undefined) {
-		sessions[req.params.sess_id] = {};
-	}
+    // Create if not already there
+    if (sessions[req.params.sess_id] == undefined) {
+        sessions[req.params.sess_id] = {};
+    }
 
-	res.sendfile(__dirname + "/pages/admin.html");
+    res.sendfile(__dirname + "/pages/admin.html");
 });
 
 // Update the admin page information
 app.post('/session/:sess_id/admin/save', function(req, res) {
-	var prefs = {
-		board_title: req.body.board_title
-	};
+    var prefs = {
+        board_title: req.body.board_title
+    };
 
-	sessions[req.params.sess_id] = prefs;
-	res.send(JSON.stringify(prefs));
+    sessions[req.params.sess_id] = prefs;
+    res.send(JSON.stringify(prefs));
 });
 
 var port = Number(process.env.PORT || 5000);
