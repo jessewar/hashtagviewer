@@ -21,6 +21,10 @@
 					<input class="form-control" type="text" placeholder="Terms" name="filters" value="{{filters}}" />
 				</div>
 				<div class="form-group">
+					<label for="location">Location (will get tweets within 20 miles)</label>
+					<input class="form-control" type="text" placeholder="City/State/Region" name="location" value="{{location}}" />
+				</div>
+				<div class="form-group">
 					<label for="animation">Animation</label>
 					<select class="form-control" name="animation">
 						<option value="slideright" {{slideright_on}}>Slide Right</option>

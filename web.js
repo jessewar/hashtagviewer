@@ -2,6 +2,10 @@ var express = require("express");
 var Twit = require("twit");
 var consolidate = require("consolidate");
 var app = express();
+var geocoder = require('node-geocoder').getGeocoder('google',
+    'http', {
+        //apiKey: 'AIzaSyBTqfN3IerSOuCWEFKotk3mpmHh-FJWSjc',
+    })
 var twitter = new Twit({
     consumer_key: 'H54AD1rVwqpELtpgvjkZTJLyd',
     consumer_secret: 'G6mMnu3WLoRB34wdZ73hT9CCvXUMlJF7OiZnLJs4JEnxwJE8SB',
@@ -24,7 +28,9 @@ var preferences_defaults = {
     query: "",
     animation: "fading",
     tweet_count: 10,
-    filters: ""
+    filters: "",
+    location: "",
+    latLong: null
 };
 
 app.get('/', function(req, res) {
@@ -46,10 +52,17 @@ app.post('/', function(req, res) {
 // Fetches the tweets for the given id
 app.get('/fetch/:id', function(req, res) {
     var session = sessions[req.params.id];
-    var banned_words = session.filters;
-    var query = session.query + " -" + session.filters.split().join(" -");
+    var properties = {
+        q: session.query + " -" + session.filters.split().join(" -"),
+        count: session.tweet_count
+    };
 
-    twitter.get('search/tweets', {q: query, count: session.tweet_count}, function(err, reply) {
+    // Format geocode if it exists
+    if (session.latLong != null) {
+        properties.geocode = session.latLong[0] + "," + session.latLong[1] + ",20mi";
+    }
+
+    twitter.get('search/tweets', properties, function(err, reply) {
         var parsedData = new Array(session.tweet_count);
         for (var i = 0; i < session.tweet_count; i++) {
             var status = reply.statuses[i];
@@ -102,8 +115,18 @@ app.post('/s/:sess_id/admin', function(req, res) {
         query: req.body.query,
         animation: req.body.animation,
         tweet_count: req.body.tweet_count,
-        filters: req.body.filters
+        filters: req.body.filters,
+        location: req.body.location,
+        latLong: null
     };
+
+    if (prefs.location.length >= 0) {
+        geocoder.geocode(prefs.location, function(err, res) {
+            console.log(res);
+            prefs.latLong = [res[0].latitude, res[0].longitude];
+            console.log(prefs.latLong);
+        });
+    }
 
     sessions[req.params.sess_id] = prefs;
     res.redirect('/s/' + req.params.sess_id);
