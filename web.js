@@ -71,7 +71,7 @@ app.get('/s/:sess_id', function(req, res, next) {
         res.send('Session ID ' + req.params.sess_id + ' not found! :(');
         return;
     }
-    res.render(__dirname + "/pages/viewer.html", {page_id: req.params.sess_id});
+    res.render(__dirname + "/pages/viewer_fading.html", {page_id: req.params.sess_id});
 });
 
 // View the admin page
