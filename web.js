@@ -42,21 +42,25 @@ app.post('/', function(req, res) {
 // Fetches the tweets for the given id
 app.get('/fetch/:id', function(req, res) {
     twitter.get('search/tweets', {q: '#' + sessions[req.params.id].query, count: 25}, function(err, reply) {
-        var status = reply.statuses[0];
-        var user = status.user;
-        var parsedData = {
-            // status data
-            favorite_count : status.favorite_count,
-            created_at : status.created_at,
-            text : status.text,
-            geo : status.geo,
-            coordinates : status.coordinates,
-            // user data
-            name : user.name,
-            screen_name : user.screen_name,
-            location : user.location,
-            profile_image_url : user.profile_image_url
-        };
+        var parsedData = new Array(25);
+        for (var i = 0; i < 25; i++) {
+            var status = reply.statuses[i];
+            var user = status.user;
+            parsedData[i] = {
+                // status data
+                favorite_count : status.favorite_count,
+                retweet_count : status.retweet_count,
+                created_at : status.created_at,
+                text : status.text,
+                geo : status.geo,
+                coordinates : status.coordinates,
+                // user data
+                name : user.name,
+                screen_name : user.screen_name,
+                location : user.location,
+                profile_image_url : user.profile_image_url
+            };
+        }
         res.send(parsedData);
     });
 });
