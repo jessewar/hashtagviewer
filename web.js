@@ -23,7 +23,8 @@ var preferences_defaults = {
     board_title: "#Hashtag Viewer",
     query: "",
     animation: "fading",
-    tweet_count: 10
+    tweet_count: 10,
+    filters: ""
 };
 
 app.get('/', function(req, res) {
@@ -45,7 +46,10 @@ app.post('/', function(req, res) {
 // Fetches the tweets for the given id
 app.get('/fetch/:id', function(req, res) {
     var session = sessions[req.params.id];
-    twitter.get('search/tweets', {q: '#' + session.query, count: session.tweet_count}, function(err, reply) {
+    var banned_words = session.filters;
+    var query = session.query + " -" + session.filters.split().join(" -");
+
+    twitter.get('search/tweets', {q: query, count: session.tweet_count}, function(err, reply) {
         var parsedData = new Array(session.tweet_count);
         for (var i = 0; i < session.tweet_count; i++) {
             var status = reply.statuses[i];
@@ -97,7 +101,8 @@ app.post('/s/:sess_id/admin', function(req, res) {
         board_title: req.body.board_title,
         query: req.body.query,
         animation: req.body.animation,
-        tweet_count: req.body.tweet_count
+        tweet_count: req.body.tweet_count,
+        filters: req.body.filters
     };
 
     sessions[req.params.sess_id] = prefs;
