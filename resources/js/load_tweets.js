@@ -17,7 +17,7 @@ function nextTweet(element) {
 		return result;
 	} else {
 		element.find(".profile_pic").attr("src", result.profile_image_url);
-		element.find(".username").text(result.screen_name);
+		element.find(".username").text("@" + result.screen_name);
 		element.find(".date").text(result.created_at);
 		element.find(".tweet .text").text(result.text);
 		element.find(".favorites").text(result.favorite_count + " favorites");
