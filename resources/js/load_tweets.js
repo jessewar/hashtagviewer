@@ -9,12 +9,12 @@ $(document).ready(function() {
     });
 
     function showTweetSequence() {
-	$(".block").fadeOut(1000, function() {
+        $(".block").fadeOut(1000, function() {
             nextTweet($(".block"));
             $(".block").fadeIn(1000, function() {
-		showTweetSequence();
+                showTweetSequence();
             });
-	});
+        });
     }
     showTweetSequence();
 });
@@ -28,16 +28,16 @@ function nextTweet(element) {
         _iterateTweets();
     }
 
-	if (element == undefined) {
-		return result;
-	} else {
-		element.find(".profile_pic").attr("src", result.profile_image_url);
-		element.find(".username").text("@" + result.screen_name);
-		element.find(".date").text(result.created_at);
-		element.find(".tweet .text").text(result.text);
-		element.find(".favorites").text(result.favorite_count + " favorites");
-		element.find(".retweets").text(result.retweet_count + " retweets");
-	}
+    if (element == undefined) {
+        return result;
+    } else {
+        element.find(".profile_pic").attr("src", result.profile_image_url);
+        element.find(".username").text("@" + result.screen_name);
+        element.find(".date").text(result.created_at);
+        element.find(".tweet .text").text(result.text);
+        element.find(".favorites").text(result.favorite_count + " favorites");
+        element.find(".retweets").text(result.retweet_count + " retweets");
+    }
 
 }
 
