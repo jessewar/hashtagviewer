@@ -58,10 +58,11 @@ app.get('/fetch/:id', function(req, res) {
     }
 
     var properties = {
-        q: session.query + " -" + session.filters.split().join(" -"),
+        q: session.query + " -" + session.filters.split(" ").join(" -"),
         count: session.tweet_count
     };
 
+    console.log("query: " + properties.q);
     // Format geocode if it exists
     if (session.latLong != null) {
         properties.geocode = session.latLong[0] + "," + session.latLong[1] + ",20mi";
