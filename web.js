@@ -16,21 +16,30 @@ app.use(express.bodyParser());
 // Stores a mapping from session IDs to preferences.
 var sessions = {};
 
-app.get('/', function(req, res) {
-    // generate a random session ID and initialize empty preferences key
-    var id = generate_sess_id();
-    sessions.id = {};
+// Preference defaults for sessions
+var preferences_defaults = {
+    board_title: "#Hashtag Viewer",
+    query: ""
+};
 
+app.get('/', function(req, res) {
     res.sendfile(__dirname + "/pages/homepage.html");
 });
 
 app.post('/', function(req, res) {
     var query = req.body.query;
-    res.redirect('/search/' + query);
+    
+    // generate a random session ID and initialize default preferences
+    var id = generate_sess_id();
+    sessions[id] = {query: query} || preferences_defaults;
+
+    // Redirect to the session page
+    res.redirect('/s/' + id);
 });
 
-app.get('/search/:query', function(req, res) {
-    twitter.get('search/tweets', {q: '#' + req.params.query, count: 1}, function(err, reply) {
+// Fetches the tweets for the given id
+app.get('/fetch/:id', function(req, res) {
+    twitter.get('search/tweets', {q: '#' + session[req.params.id].query, count: 25}, function(err, reply) {
         var status = reply.statuses[0];
         var user = status.user;
         var parsedData = {
@@ -51,26 +60,21 @@ app.get('/search/:query', function(req, res) {
 });
 
 // View the tweet board with the given session ID
-app.get('/session/:sess_id', function(req, res, next) {
-    if (sessions[req.params.sess_id] != undefined) {
-        res.send("The main hashtag view page will go here!");
-    } else {
-        next();
+app.get('/s/:sess_id', function(req, res, next) {
+    if (sessions[req.params.sess_id] == undefined) {
+        res.send('Session ID ' + req.params.sess_id + ' not found! :(');
+        return;
     }
-});
-
-// Error handler for unknown session ID's
-app.get('/session/:sess_id', function(req, res) {
-    res.send('Session ID ' + req.params.sess_id + ' not found! :(');
+    res.send("The main hashtag view page will go here!");
 });
 
 // View the admin page
-app.get('/session/:sess_id/admin', function(req, res) {
+app.get('/s/:sess_id/admin', function(req, res) {
     res.sendfile(__dirname + "/pages/admin.html");
 });
 
 // Update the admin page information
-app.post('/session/:sess_id/admin/save', function(req, res) {
+app.post('/s/:sess_id/admin/save', function(req, res) {
     var prefs = {
         board_title: req.body.board_title
     };
@@ -105,4 +109,3 @@ function generate_sess_id() {
 
     return result_id;
 }
-
