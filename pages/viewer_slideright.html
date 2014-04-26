@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 	<head>
@@ -12,19 +13,19 @@
 		<script>
 		var current_id = "{{page_id}}";
 		on_tweet_load = function(){
-			var div=$("#blockId");
+			var div=$(".block");
 			div.fadeIn(1000);
 		    div.animate({left:'50%'},{queue: false,duration: 12000,easing: false});
 		    div.delay(10000).fadeOut(1000);
-		    nextTweet($("#blockId"));
+		    nextTweet($(".block"));
 		    };
 		    
-		    $( "#blockId" ).fadeOut( "slow");
+		    $( ".block" ).fadeOut( "slow");
 		</script>
-		<script src="/resources/js/load_tweets.js"></script>
+		<script src="/resources/js/load_tweets_slideright.js"></script>
 	</head>
 	<body>
-		<div class="block" id="blockId" style="display: none;">
+		<div class="block">
 			<div class="userinfo">
 				<img src="profile.png" alt="Profile Picture" class="profile_pic" />
 				<span class="username">@AdamMirza12</span><br />

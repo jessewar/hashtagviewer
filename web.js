@@ -44,6 +44,8 @@ app.post('/', function(req, res) {
 // Fetches the tweets for the given id
 app.get('/fetch/:id', function(req, res) {
     twitter.get('search/tweets', {q: '#' + sessions[req.params.id].query, count: 25}, function(err, reply) {
+	if (err) console.log(err);
+	
         var parsedData = new Array(25);
         for (var i = 0; i < 25; i++) {
             var status = reply.statuses[i];
