@@ -101,7 +101,7 @@ app.post('/s/:sess_id/admin', function(req, res) {
     };
 
     sessions[req.params.sess_id] = prefs;
-    res.render(__dirname + "/pages/admin.html", sessions[req.params.sess_id]);
+    res.redirect('/s/' + req.params.sess_id);
 });
 
 var port = Number(process.env.PORT || 5000);
