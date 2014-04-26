@@ -11,12 +11,12 @@ $(document).ready(function() {
     });
 
     function showTweetSequence() {
-	$(".block").fadeOut(1000, function() {
+        $(".block").fadeOut(1000, function() {
             nextTweet($(".block"));
             $(".block").fadeIn(1000, function() {
-		showTweetSequence();
+                showTweetSequence();
             });
-	});
+        });
     }
     showTweetSequence();
 });
@@ -40,6 +40,17 @@ function nextTweet(element) {
         element.find(".favorites").text(result.favorite_count + " favorites");
         element.find(".retweets").text(result.retweet_count + " retweets");
     }
+
+    var popularity = result.favorite_count + result.retweet_count;
+    setColorGradient(element, popularity);
+
+}
+
+
+function setColorGradient($element, popularity) {
+    var saturation = popularity*20 + "%";
+    console.log(saturation);
+    $element.css('background-color', 'hsl(0,' + saturation + ',50%)');
 }
 
 // Internal function that iterates to the next set of tweets
