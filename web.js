@@ -33,7 +33,8 @@ app.post('/', function(req, res) {
     
     // generate a random session ID and initialize default preferences
     var id = generate_sess_id();
-    sessions[id] = {query: query} || preferences_defaults;
+    sessions[id] = preferences_defaults
+    sessions[id].query = query;
 
     // Redirect to the session page
     res.redirect('/s/' + id);
@@ -76,17 +77,18 @@ app.get('/s/:sess_id', function(req, res, next) {
 
 // View the admin page
 app.get('/s/:sess_id/admin', function(req, res) {
-    res.sendfile(__dirname + "/pages/admin.html");
+    res.render(__dirname + "/pages/admin.html", sessions[req.params.sess_id]);
 });
 
 // Update the admin page information
-app.post('/s/:sess_id/admin/save', function(req, res) {
+app.post('/s/:sess_id/admin', function(req, res) {
     var prefs = {
-        board_title: req.body.board_title
+        board_title: req.body.board_title,
+        query: req.body.query
     };
 
     sessions[req.params.sess_id] = prefs;
-    res.send(JSON.stringify(prefs));
+    res.render(__dirname + "/pages/admin.html", sessions[req.params.sess_id]);
 });
 
 var port = Number(process.env.PORT || 5000);
