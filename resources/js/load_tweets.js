@@ -1,36 +1,36 @@
 var tweets = [];
+var current_tweet = 0;
+var tweet_len = 0;
 
 $(document).ready(function() {
     $.ajax({
         url: "/fetch/" + current_id
     }).done(function(data) {
+        if (data == "") {
+            alert("No tweets found :(");
+            return;
+        }
         tweets = data;
-        nextTweet($(".block"));  // fill .block divs with new tweet content
+        tweet_len = data.length - 1;
+        tweets = tweets.concat(data);    // To take care of race conditions
+        console.log("Initial length = " + tweets.length);
+        onNextTweet($(".block"));  // fill .block divs with new tweet content
     });
-
-    function showTweetSequence() {
-        $(".block").fadeOut(1000, function() {
-            nextTweet($(".block"));
-            $(".block").fadeIn(1000, function() {
-                showTweetSequence();
-            });
-        });
-    }
-    showTweetSequence();
 });
 
 // Loads the next tweet into the specified element or returns it
 // if it is not specified
 function nextTweet(element) {
-    var result = tweets.pop();
+    var result = tweets.splice(0, 1)[0];
+    current_tweet++;
 
-    if (tweets.length == 0) {
+    console.log("Tweets: " + tweets.length);
+    if (current_tweet >= tweet_len && tweets.length <= tweet_len * 2) {
+        console.log("Loading more tweets");
         _iterateTweets();
     }
 
-    if (element == undefined) {
-        return result;
-    } else {
+    if (element != undefined) {
         element.find(".profile_pic").attr("src", result.profile_image_url);
         element.find(".username").text("@" + result.screen_name);
         element.find(".date").text(result.created_at);
@@ -39,6 +39,7 @@ function nextTweet(element) {
         element.find(".retweets").text(result.retweet_count + " retweets");
     }
 
+    return result;
 }
 
 // Internal function that iterates to the next set of tweets
@@ -46,6 +47,7 @@ function _iterateTweets() {
     $.ajax({
         url: "/fetch/" + current_id
     }).done(function(data) {
-        tweets = data;
+        tweets = tweets.concat(data);
+        current_tweet = 0;
     });
 }
